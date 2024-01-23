@@ -8,7 +8,7 @@ public class KeyManager {
     public String generateKey(int length){
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < length; i++) {
-            stringBuilder.append(CHARS.charAt(new Random().nextInt(63)));
+            stringBuilder.append(CHARS.charAt(new Random().nextInt(62)));
         }
         return stringBuilder.toString();
     }
