@@ -1,5 +1,6 @@
 package com.eadp.userserviceapi.api;
 
+import com.eadp.userserviceapi.dto.request.RequestUserDto;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -7,23 +8,25 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @PostMapping
-    public String createUser(){
-        return "createUser";
+    public String createUser(@RequestBody RequestUserDto dto){
+        return dto.toString();
     }
-    @PutMapping
-    public String updateUser(){
+    @PutMapping("/{userId}")
+    public String updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId){
         return "updateUser";
     }
-    @GetMapping
-    public String findUser(){
+    @GetMapping("/{userId}")
+    public String findUser(@PathVariable String userId){
         return "findUser";
     }
-    @DeleteMapping
-    public String deleteUser(){
+    @DeleteMapping("/{userId}")
+    public String deleteUser(@PathVariable String userId){
         return "deleteUser";
     }
-    @GetMapping("/list")
-    public String findAllUsers(){
+    @GetMapping(value = "/list", params = {"page","size","searchText"})
+    public String findAllUsers(
+            @RequestParam int page, @RequestParam int size, @RequestParam String searchText
+    ){
         return "findAllUsers";
     }
 }
