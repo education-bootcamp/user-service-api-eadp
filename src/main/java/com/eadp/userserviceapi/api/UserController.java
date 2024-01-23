@@ -1,5 +1,6 @@
 package com.eadp.userserviceapi.api;
 
+import com.eadp.userserviceapi.dto.paginate.PaginateUsersResponseDto;
 import com.eadp.userserviceapi.dto.request.RequestUserDto;
 import com.eadp.userserviceapi.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,9 @@ public class UserController {
     }
 
     @GetMapping(value = "/list", params = {"page", "size", "searchText"})
-    public String findAllUsers(
+    public PaginateUsersResponseDto findAllUsers(
             @RequestParam int page, @RequestParam int size, @RequestParam String searchText
     ) {
-        return "findAllUsers";
+        return userService.findAllUsers(page, size, searchText);
     }
 }
