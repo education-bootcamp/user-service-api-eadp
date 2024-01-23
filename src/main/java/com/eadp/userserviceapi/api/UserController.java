@@ -17,27 +17,32 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody RequestUserDto dto){
+    public String createUser(@RequestBody RequestUserDto dto) {
         userService.createUser(dto);
         return dto.getFullName();
     }
+
     @PutMapping("/{userId}")
-    public String updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId){
+    public String updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId) {
         userService.updateUser(dto, userId);
-        return dto.getFullName()+" was updated!";
+        return dto.getFullName() + " was updated!";
     }
+
     @GetMapping("/{userId}")
-    public String findUser(@PathVariable String userId){
+    public String findUser(@PathVariable String userId) {
         return userService.findUser(userId).toString();
     }
+
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable String userId){
-        return "deleteUser";
+    public String deleteUser(@PathVariable String userId) {
+        userService.deleteUser(userId);
+        return userId + " was Deleted!";
     }
-    @GetMapping(value = "/list", params = {"page","size","searchText"})
+
+    @GetMapping(value = "/list", params = {"page", "size", "searchText"})
     public String findAllUsers(
             @RequestParam int page, @RequestParam int size, @RequestParam String searchText
-    ){
+    ) {
         return "findAllUsers";
     }
 }

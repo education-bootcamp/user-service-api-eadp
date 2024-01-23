@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import java.util.Random;
 
@@ -53,18 +54,23 @@ public class UserServiceImpl implements UserService {
     public ResponseUserDto findUser(String userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
+
+       // String avatar=new String(selectedUser.get().getAvatarUrl(), StandardCharsets.UTF_8);
+
         return new ResponseUserDto(
                 selectedUser.get().getUserId(),
                 selectedUser.get().getFullName(),
                 selectedUser.get().getEmail(),
-                "",
+                new String(selectedUser.get().getAvatarUrl()),
                 selectedUser.get().isStatus()
         );
     }
 
     @Override
     public void deleteUser(String userId) {
-
+        Optional<User> selectedUser = userRepo.findUserByUserId(userId);
+        if (selectedUser.isEmpty()) throw new RuntimeException();
+        userRepo.delete(selectedUser.get());
     }
 
     @Override
