@@ -11,6 +11,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -39,12 +40,26 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(RequestUserDto dto, String userId) {
-
+        Optional<User> selectedUser = userRepo.findUserByUserId(userId);
+        if (selectedUser.isEmpty()) throw new RuntimeException();
+        selectedUser.get().setEmail(dto.getEmail());
+        selectedUser.get().setFullName(dto.getFullName());
+        selectedUser.get().setAvatarUrl(dto.getAvatarUrl().getBytes());
+        selectedUser.get().setStatus(dto.isStatus());
+        userRepo.save(selectedUser.get());
     }
 
     @Override
     public ResponseUserDto findUser(String userId) {
-        return null;
+        Optional<User> selectedUser = userRepo.findUserByUserId(userId);
+        if (selectedUser.isEmpty()) throw new RuntimeException();
+        return new ResponseUserDto(
+                selectedUser.get().getUserId(),
+                selectedUser.get().getFullName(),
+                selectedUser.get().getEmail(),
+                "",
+                selectedUser.get().isStatus()
+        );
     }
 
     @Override

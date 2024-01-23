@@ -23,11 +23,12 @@ public class UserController {
     }
     @PutMapping("/{userId}")
     public String updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId){
-        return "updateUser";
+        userService.updateUser(dto, userId);
+        return dto.getFullName()+" was updated!";
     }
     @GetMapping("/{userId}")
     public String findUser(@PathVariable String userId){
-        return "findUser";
+        return userService.findUser(userId).toString();
     }
     @DeleteMapping("/{userId}")
     public String deleteUser(@PathVariable String userId){
