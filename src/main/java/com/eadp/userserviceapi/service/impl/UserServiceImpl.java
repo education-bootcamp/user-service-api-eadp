@@ -81,14 +81,15 @@ public class UserServiceImpl implements UserService {
         List<User> allUsers = userRepo.findAllUsers(searchText, PageRequest.of(page, size));
         Long count = userRepo.findAllUserCount(searchText);
         List<ResponseUserDto> dtos = new ArrayList<>();
+        System.out.println(allUsers);
         allUsers.forEach(e->{
-            new ResponseUserDto(
+            dtos.add(new ResponseUserDto(
                     e.getUserId(),
                     e.getFullName(),
                     e.getEmail(),
                     new String(e.getAvatarUrl()),
                     e.isStatus()
-            );
+            ));
         });
         return new PaginateUsersResponseDto(count,dtos);
     }

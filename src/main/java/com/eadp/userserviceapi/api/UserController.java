@@ -3,7 +3,10 @@ package com.eadp.userserviceapi.api;
 import com.eadp.userserviceapi.dto.paginate.PaginateUsersResponseDto;
 import com.eadp.userserviceapi.dto.request.RequestUserDto;
 import com.eadp.userserviceapi.service.UserService;
+import com.eadp.userserviceapi.util.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -18,32 +21,47 @@ public class UserController {
     }
 
     @PostMapping
-    public String createUser(@RequestBody RequestUserDto dto) {
+    public ResponseEntity<StandardResponseDto> createUser(@RequestBody RequestUserDto dto) {
         userService.createUser(dto);
-        return dto.getFullName();
+        return new ResponseEntity<>(
+                new StandardResponseDto(dto.getFullName()+ " was Saved!",201,null),
+                HttpStatus.CREATED
+        );
     }
 
     @PutMapping("/{userId}")
-    public String updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId) {
+    public ResponseEntity<StandardResponseDto> updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId) {
         userService.updateUser(dto, userId);
-        return dto.getFullName() + " was updated!";
+        return new ResponseEntity<>(
+                new StandardResponseDto(dto.getFullName() + " was updated!",201,null),
+                HttpStatus.CREATED
+        );
     }
 
     @GetMapping("/{userId}")
-    public String findUser(@PathVariable String userId) {
-        return userService.findUser(userId).toString();
+    public ResponseEntity<StandardResponseDto> findUser(@PathVariable String userId) {
+        return new ResponseEntity<>(
+                new StandardResponseDto("User data",200,userService.findUser(userId)),
+                HttpStatus.OK
+        );
     }
 
     @DeleteMapping("/{userId}")
-    public String deleteUser(@PathVariable String userId) {
+    public ResponseEntity<StandardResponseDto> deleteUser(@PathVariable String userId) {
         userService.deleteUser(userId);
-        return userId + " was Deleted!";
+        return new ResponseEntity<>(
+                new StandardResponseDto( userId + " was Deleted!",204,null),
+                HttpStatus.NO_CONTENT
+        );
     }
 
     @GetMapping(value = "/list", params = {"page", "size", "searchText"})
-    public PaginateUsersResponseDto findAllUsers(
+    public ResponseEntity<StandardResponseDto> findAllUsers(
             @RequestParam int page, @RequestParam int size, @RequestParam String searchText
     ) {
-        return userService.findAllUsers(page, size, searchText);
+        return new ResponseEntity<>(
+                new StandardResponseDto( "All User Data",200,userService.findAllUsers(page, size, searchText)),
+                HttpStatus.OK
+        );
     }
 }

@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User,Long> {
     public Optional<User> findUserByUserId(String userId);
 
-    @Query(nativeQuery = true, value = "SELECT * FROM user WHERE full_name LIKE %?1% OR email LIKE ?1")
+    @Query(nativeQuery = true, value = "SELECT * FROM user WHERE full_name LIKE %?1% OR email LIKE %?1%")
     public List<User> findAllUsers(String searchText, Pageable pageable);
 
     @Query(nativeQuery = true, value = "SELECT COUNT(*) FROM user WHERE full_name LIKE %?1% OR email LIKE ?1")
