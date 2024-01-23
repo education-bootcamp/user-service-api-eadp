@@ -16,7 +16,7 @@ public class User {
     @Column(name = "property_id")
     private Long propertyId;
 
-    @Column(name = "user_id", unique = true)
+    @Column(name = "user_id",length = 16,unique = true)
     private String userId;
 
     @Column(name = "full_name", length = 100, nullable = false)
