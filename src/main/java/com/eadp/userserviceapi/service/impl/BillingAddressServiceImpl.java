@@ -54,11 +54,25 @@ public class BillingAddressServiceImpl implements BillingAddressService {
 
     @Override
     public BillingAddressDto findAddress(String userId) {
-        return null;
+        Optional<User> selectedUser = userRepo.findUserByUserId(userId);
+        if (selectedUser.isEmpty()) throw new RuntimeException();
+
+        Optional<BillingAddress> selectedBillingAddress = billingRepo.findBillingAddressByUser(selectedUser.get());
+        if (selectedBillingAddress.isEmpty()) throw new RuntimeException();
+        return new BillingAddressDto(
+                selectedBillingAddress.get().getCountry(),selectedBillingAddress.get().getCity(),
+                selectedBillingAddress.get().getZip()
+        );
     }
 
     @Override
     public void deleteAddress(String userId) {
+        Optional<User> selectedUser = userRepo.findUserByUserId(userId);
+        if (selectedUser.isEmpty()) throw new RuntimeException();
 
+        Optional<BillingAddress> selectedBillingAddress = billingRepo.findBillingAddressByUser(selectedUser.get());
+        if (selectedBillingAddress.isEmpty()) throw new RuntimeException();
+
+        billingRepo.delete(selectedBillingAddress.get());
     }
 }
