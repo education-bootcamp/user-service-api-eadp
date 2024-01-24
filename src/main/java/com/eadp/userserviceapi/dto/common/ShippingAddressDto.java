@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ShippingAddress {
+public class ShippingAddressDto {
     private String country;
     private String city;
     private String zip;

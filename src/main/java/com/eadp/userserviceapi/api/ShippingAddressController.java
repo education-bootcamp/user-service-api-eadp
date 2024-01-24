@@ -1,6 +1,10 @@
 package com.eadp.userserviceapi.api;
 
+import com.eadp.userserviceapi.dto.common.BillingAddressDto;
+import com.eadp.userserviceapi.dto.common.ShippingAddressDto;
 import com.eadp.userserviceapi.dto.request.RequestUserDto;
+import com.eadp.userserviceapi.service.BillingAddressService;
+import com.eadp.userserviceapi.service.ShippingAddressService;
 import com.eadp.userserviceapi.service.UserService;
 import com.eadp.userserviceapi.util.StandardResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,27 +13,29 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 public class ShippingAddressController {
-    private final UserService userService;
+    private final ShippingAddressService shippingAddressService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public ShippingAddressController(ShippingAddressService shippingAddressService) {
+        this.shippingAddressService = shippingAddressService;
     }
 
-    @PostMapping
-    public ResponseEntity<StandardResponseDto> createUser(@RequestBody RequestUserDto dto) {
-        userService.createUser(dto);
+    @PostMapping(params = "userId")
+    public ResponseEntity<StandardResponseDto> createUser(@RequestBody ShippingAddressDto dto,
+                                                          @RequestParam String userId) {
+        shippingAddressService.saveAddress(dto, userId);
         return new ResponseEntity<>(
-                new StandardResponseDto(dto.getFullName()+ " was Saved!",201,null),
+                new StandardResponseDto("Address was Saved!",201,null),
                 HttpStatus.CREATED
         );
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<StandardResponseDto> updateUser(@RequestBody RequestUserDto dto, @PathVariable String userId) {
-        userService.updateUser(dto, userId);
+    @PutMapping(params = "userid")
+    public ResponseEntity<StandardResponseDto> updateUser(@RequestBody ShippingAddressDto dto,
+                                                          @RequestParam String userId) {
+        shippingAddressService.updateAddress(dto, userId);
         return new ResponseEntity<>(
-                new StandardResponseDto(dto.getFullName() + " was updated!",201,null),
+                new StandardResponseDto("Address was updated!",201,null),
                 HttpStatus.CREATED
         );
     }
@@ -37,27 +43,17 @@ public class ShippingAddressController {
     @GetMapping("/{userId}")
     public ResponseEntity<StandardResponseDto> findUser(@PathVariable String userId) {
         return new ResponseEntity<>(
-                new StandardResponseDto("User data",200,userService.findUser(userId)),
+                new StandardResponseDto("Address data",200,shippingAddressService.findAddress(userId)),
                 HttpStatus.OK
         );
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<StandardResponseDto> deleteUser(@PathVariable String userId) {
-        userService.deleteUser(userId);
+        shippingAddressService.deleteAddress(userId);
         return new ResponseEntity<>(
-                new StandardResponseDto( userId + " was Deleted!",204,null),
+                new StandardResponseDto(  "Address was Deleted!",204,null),
                 HttpStatus.NO_CONTENT
-        );
-    }
-
-    @GetMapping(value = "/list", params = {"page", "size", "searchText"})
-    public ResponseEntity<StandardResponseDto> findAllUsers(
-            @RequestParam int page, @RequestParam int size, @RequestParam String searchText
-    ) {
-        return new ResponseEntity<>(
-                new StandardResponseDto( "All User Data",200,userService.findAllUsers(page, size, searchText)),
-                HttpStatus.OK
         );
     }
 }
