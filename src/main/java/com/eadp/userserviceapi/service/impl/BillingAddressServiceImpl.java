@@ -25,7 +25,7 @@ public class BillingAddressServiceImpl implements BillingAddressService {
     }
 
     @Override
-    public void saveAddress(BillingAddressDto dto, String userId) {
+    public void saveAddress(BillingAddressDto dto, int userId) {
 
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
@@ -39,7 +39,7 @@ public class BillingAddressServiceImpl implements BillingAddressService {
     }
 
     @Override
-    public void updateAddress(BillingAddressDto dto, String userId) {
+    public void updateAddress(BillingAddressDto dto, int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
 
@@ -53,7 +53,7 @@ public class BillingAddressServiceImpl implements BillingAddressService {
     }
 
     @Override
-    public BillingAddressDto findAddress(String userId) {
+    public BillingAddressDto findAddress(int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
 
@@ -66,7 +66,7 @@ public class BillingAddressServiceImpl implements BillingAddressService {
     }
 
     @Override
-    public void deleteAddress(String userId) {
+    public void deleteAddress(int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
 

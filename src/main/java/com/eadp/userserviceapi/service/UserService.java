@@ -6,8 +6,8 @@ import com.eadp.userserviceapi.dto.response.ResponseUserDto;
 
 public interface UserService {
     public void createUser(RequestUserDto dto);
-    public void updateUser(RequestUserDto dto, String userId);
-    public ResponseUserDto findUser(String userId);
-    public void deleteUser(String userId);
+    public void updateUser(RequestUserDto dto, int userId);
+    public ResponseUserDto findUser(int userId);
+    public void deleteUser(int userId);
     public PaginateUsersResponseDto findAllUsers(int page, int size, String searchText);
 }

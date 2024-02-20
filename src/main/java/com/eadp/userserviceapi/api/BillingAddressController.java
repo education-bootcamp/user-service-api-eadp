@@ -21,7 +21,7 @@ public class BillingAddressController {
     @PostMapping(params = "userId")
     public ResponseEntity<StandardResponseDto> createUser(@RequestBody BillingAddressDto dto,
                                                           @RequestParam String userId) {
-        billingAddressService.saveAddress(dto, userId);
+        billingAddressService.saveAddress(dto, Integer.parseInt(userId));
         return new ResponseEntity<>(
                 new StandardResponseDto("Address was Saved!",201,null),
                 HttpStatus.CREATED
@@ -31,7 +31,7 @@ public class BillingAddressController {
     @PutMapping(params = "userid")
     public ResponseEntity<StandardResponseDto> updateUser(@RequestBody BillingAddressDto dto,
                                                           @RequestParam String userId) {
-        billingAddressService.updateAddress(dto, userId);
+        billingAddressService.updateAddress(dto, Integer.parseInt(userId));
         return new ResponseEntity<>(
                 new StandardResponseDto("Address was updated!",201,null),
                 HttpStatus.CREATED
@@ -41,14 +41,14 @@ public class BillingAddressController {
     @GetMapping("/{userId}")
     public ResponseEntity<StandardResponseDto> findUser(@PathVariable String userId) {
         return new ResponseEntity<>(
-                new StandardResponseDto("Address data",200,billingAddressService.findAddress(userId)),
+                new StandardResponseDto("Address data",200,billingAddressService.findAddress(Integer.parseInt(userId))),
                 HttpStatus.OK
         );
     }
 
     @DeleteMapping("/{userId}")
     public ResponseEntity<StandardResponseDto> deleteUser(@PathVariable String userId) {
-        billingAddressService.deleteAddress(userId);
+        billingAddressService.deleteAddress(Integer.parseInt(userId));
         return new ResponseEntity<>(
                 new StandardResponseDto(  "Address was Deleted!",204,null),
                 HttpStatus.NO_CONTENT

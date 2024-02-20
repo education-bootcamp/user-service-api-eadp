@@ -11,7 +11,8 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepo extends JpaRepository<User,Long> {
-    public Optional<User> findUserByUserId(String userId);
+    @Query(nativeQuery = true, value = "SELECT * FROM user WHERE property_id=?1")
+    public Optional<User> findUserByUserId(int id);
 
     @Query(nativeQuery = true, value = "SELECT * FROM user WHERE full_name LIKE %?1% OR email LIKE %?1%")
     public List<User> findAllUsers(String searchText, Pageable pageable);

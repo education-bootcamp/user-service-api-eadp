@@ -26,7 +26,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public void saveAddress(ShippingAddressDto dto, String userId) {
+    public void saveAddress(ShippingAddressDto dto, int userId) {
 
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
@@ -40,7 +40,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public void updateAddress(ShippingAddressDto dto, String userId) {
+    public void updateAddress(ShippingAddressDto dto, int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
 
@@ -54,7 +54,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public ShippingAddressDto findAddress(String userId) {
+    public ShippingAddressDto findAddress(int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
 
@@ -67,7 +67,7 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
     }
 
     @Override
-    public void deleteAddress(String userId) {
+    public void deleteAddress(int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
 

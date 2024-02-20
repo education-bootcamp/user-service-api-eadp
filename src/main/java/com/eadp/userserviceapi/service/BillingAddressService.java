@@ -4,8 +4,8 @@ import com.eadp.userserviceapi.dto.common.BillingAddressDto;
 
 
 public interface BillingAddressService {
-    public void saveAddress(BillingAddressDto dto, String userId);
-    public void updateAddress(BillingAddressDto dto, String userId);
-    public BillingAddressDto findAddress(String userId);
-    public void deleteAddress(String userId);
+    public void saveAddress(BillingAddressDto dto, int userId);
+    public void updateAddress(BillingAddressDto dto, int userId);
+    public BillingAddressDto findAddress(int userId);
+    public void deleteAddress(int userId);
 }

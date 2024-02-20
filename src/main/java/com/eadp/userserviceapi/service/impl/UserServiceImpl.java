@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(RequestUserDto dto, String userId) {
+    public void updateUser(RequestUserDto dto, int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
         selectedUser.get().setEmail(dto.getEmail());
@@ -54,12 +54,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseUserDto findUser(String userId) {
+    public ResponseUserDto findUser(int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
-
        // String avatar=new String(selectedUser.get().getAvatarUrl(), StandardCharsets.UTF_8);
-
         return new ResponseUserDto(
                 selectedUser.get().getUserId(),
                 selectedUser.get().getFullName(),
@@ -70,7 +68,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String userId) {
+    public void deleteUser(int userId) {
         Optional<User> selectedUser = userRepo.findUserByUserId(userId);
         if (selectedUser.isEmpty()) throw new RuntimeException();
         userRepo.delete(selectedUser.get());
